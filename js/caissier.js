@@ -84,7 +84,7 @@ function showTicket(id) {
   const modeLabel = { especes:'Espèces', wave:'Wave', orange:'Orange Money' }[o.mode_paiement] || '—';
   document.getElementById('ticket-content').innerHTML = `
     <div class="ticket-header">
-      <div class="ticket-resto">🍽 ${APP_CONFIG.nom.toUpperCase()}</div>
+      <div class="ticket-resto">${APP_CONFIG.logo ? `<img src="${APP_CONFIG.logo}" style="height:20px;vertical-align:middle;margin-right:4px;">` : APP_CONFIG.emoji} ${APP_CONFIG.nom.toUpperCase()}</div>
       <div class="ticket-sub">${APP_CONFIG.ville}</div>
       <div class="ticket-sub" style="margin-top:4px;">${dt}</div>
       <div class="ticket-sub">Cmd ${o.numero} · Table ${o.table_num}</div>

@@ -1,5 +1,5 @@
 // ─── CONFIG GLOBALE ───────────────────────────────────────────────────────────
-let APP_CONFIG = { nom: 'Mon Restaurant', ville: '', devise: 'FCFA' };
+let APP_CONFIG = { nom: 'Mon Restaurant', ville: '', devise: 'FCFA', emoji: '🍽', logo: '' };
 
 async function loadConfig() {
   APP_CONFIG = await API.getConfig();

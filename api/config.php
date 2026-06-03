@@ -5,4 +5,6 @@ echo json_encode([
     'nom'    => $_env['RESTO_NOM']    ?? 'Mon Restaurant',
     'ville'  => $_env['RESTO_VILLE']  ?? '',
     'devise' => $_env['RESTO_DEVISE'] ?? 'FCFA',
+    'emoji'  => $_env['RESTO_EMOJI']  ?? '🍽',
+    'logo'   => $_env['RESTO_LOGO']   ?? '',
 ]);

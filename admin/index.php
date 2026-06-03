@@ -10,6 +10,7 @@ requireAdmin(); // ← Redirige vers login si pas connecté
   <title>Admin — <?= htmlspecialchars(RESTO_NOM) ?></title>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/theme.php">
 </head>
 <body>
 

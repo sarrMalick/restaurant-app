@@ -2,6 +2,8 @@
 $_cfg       = parse_ini_file(__DIR__ . '/.env');
 $restoNom   = htmlspecialchars($_cfg['RESTO_NOM']   ?? 'Mon Restaurant');
 $restoVille = htmlspecialchars($_cfg['RESTO_VILLE'] ?? '');
+$restoLogo  = htmlspecialchars($_cfg['RESTO_LOGO']  ?? '');
+$restoEmoji = htmlspecialchars($_cfg['RESTO_EMOJI'] ?? '🍽');
 ?>
 <!doctype html>
 <html lang="fr">
@@ -14,11 +16,19 @@ $restoVille = htmlspecialchars($_cfg['RESTO_VILLE'] ?? '');
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/theme.php" />
   </head>
   <body>
     <header class="client-header">
       <div class="client-header-inner">
-        <span class="resto-name">🍽 <?= $restoNom ?></span>
+        <span class="resto-name">
+          <?php if ($restoLogo): ?>
+            <img src="<?= $restoLogo ?>" alt="<?= $restoNom ?>" style="height:28px;vertical-align:middle;margin-right:6px;">
+          <?php else: ?>
+            <?= $restoEmoji ?>
+          <?php endif; ?>
+          <?= $restoNom ?>
+        </span>
         <span class="resto-sub"><?= $restoVille ?></span>
       </div>
     </header>
