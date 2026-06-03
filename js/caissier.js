@@ -3,7 +3,8 @@ let orders = [];
 let currentPayOrderId = null;
 let selectedPayMode   = 'especes';
 
-function initCaissier() {
+async function initCaissier() {
+  await loadConfig();
   const d = new Date();
   document.getElementById('caissier-date').textContent =
     d.toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long' });
@@ -39,7 +40,7 @@ function renderOrders() {
         <span class="status-badge ${o.statut==='paye'?'s-paye':'s-attente'}">${o.statut==='paye'?'✓ Payé':'En attente'}</span>
       </div>
       <div class="order-items-txt">${itemsStr}</div>
-      <div class="order-total-txt">${parseInt(o.total).toLocaleString('fr-FR')} FCFA</div>
+      <div class="order-total-txt">${parseInt(o.total).toLocaleString('fr-FR')} ${APP_CONFIG.devise}</div>
       <div class="order-actions">
         ${o.statut==='attente' ? `<button class="btn-primary" style="width:auto;padding:8px 14px;font-size:13px;" onclick="openPay(${o.id})">💳 Encaisser</button>` : ''}
         <button class="btn-outline" onclick="showTicket(${o.id})">🧾 Ticket</button>
@@ -52,7 +53,7 @@ function openPay(id) {
   currentPayOrderId = id;
   selectedPayMode = 'especes';
   const o = orders.find(x => x.id == id);
-  document.getElementById('pay-montant').textContent = parseInt(o.total).toLocaleString('fr-FR') + ' FCFA';
+  document.getElementById('pay-montant').textContent = parseInt(o.total).toLocaleString('fr-FR') + ' ' + APP_CONFIG.devise;
   document.querySelectorAll('.pay-opt').forEach(el => el.classList.remove('selected'));
   document.getElementById('opt-especes').classList.add('selected');
   document.getElementById('pay-modal-bg').classList.add('open');
@@ -83,17 +84,17 @@ function showTicket(id) {
   const modeLabel = { especes:'Espèces', wave:'Wave', orange:'Orange Money' }[o.mode_paiement] || '—';
   document.getElementById('ticket-content').innerHTML = `
     <div class="ticket-header">
-      <div class="ticket-resto">🍽 MON RESTAURANT</div>
-      <div class="ticket-sub">Mbour, Sénégal</div>
+      <div class="ticket-resto">🍽 ${APP_CONFIG.nom.toUpperCase()}</div>
+      <div class="ticket-sub">${APP_CONFIG.ville}</div>
       <div class="ticket-sub" style="margin-top:4px;">${dt}</div>
       <div class="ticket-sub">Cmd ${o.numero} · Table ${o.table_num}</div>
       <div class="ticket-sub">Client : ${o.client_nom}</div>
       ${o.note ? `<div class="ticket-sub">Note : ${o.note}</div>` : ''}
     </div>
     <hr class="ticket-sep">
-    ${o.items.map(i=>`<div class="ticket-row"><span>${i.quantite}x ${i.plat_nom}</span><span>${(parseInt(i.plat_prix)*i.quantite).toLocaleString('fr-FR')} F</span></div>`).join('')}
+    ${o.items.map(i=>`<div class="ticket-row"><span>${i.quantite}x ${i.plat_nom}</span><span>${(parseInt(i.plat_prix)*i.quantite).toLocaleString('fr-FR')} ${APP_CONFIG.devise}</span></div>`).join('')}
     <hr class="ticket-sep">
-    <div class="ticket-total-row"><span>TOTAL</span><span>${parseInt(o.total).toLocaleString('fr-FR')} F</span></div>
+    <div class="ticket-total-row"><span>TOTAL</span><span>${parseInt(o.total).toLocaleString('fr-FR')} ${APP_CONFIG.devise}</span></div>
     ${o.mode_paiement ? `<div class="ticket-pay-mode">Payé par ${modeLabel}</div>` : '<div class="ticket-pay-mode" style="color:#999;">En attente de paiement</div>'}
     <div class="ticket-footer">Merci pour votre visite !<br>À bientôt 😊</div>
   `;

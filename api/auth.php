@@ -4,6 +4,9 @@ session_start();
 $_env = parse_ini_file(__DIR__ . '/../.env');
 define('CAISSIER_PWD', $_env['CAISSIER_PWD'] ?? '');
 define('ADMIN_PWD',    $_env['ADMIN_PWD']    ?? '');
+define('RESTO_NOM',    $_env['RESTO_NOM']    ?? 'Mon Restaurant');
+define('RESTO_VILLE',  $_env['RESTO_VILLE']  ?? '');
+define('RESTO_DEVISE', $_env['RESTO_DEVISE'] ?? 'FCFA');
 
 // ── Vérifie si le caissier est connecté ───────────────────────────────────
 function isCaissier() {

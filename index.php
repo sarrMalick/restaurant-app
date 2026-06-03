@@ -1,0 +1,115 @@
+<?php
+$_cfg       = parse_ini_file(__DIR__ . '/.env');
+$restoNom   = htmlspecialchars($_cfg['RESTO_NOM']   ?? 'Mon Restaurant');
+$restoVille = htmlspecialchars($_cfg['RESTO_VILLE'] ?? '');
+?>
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><?= $restoNom ?> — Menu</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&family=Space+Mono:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header class="client-header">
+      <div class="client-header-inner">
+        <span class="resto-name">🍽 <?= $restoNom ?></span>
+        <span class="resto-sub"><?= $restoVille ?></span>
+      </div>
+    </header>
+
+    <main class="screen">
+      <div style="margin-bottom: 1rem; padding-top: 1rem">
+        <h1 style="font-size: 18px; font-weight: 600; margin-bottom: 4px">
+          Bienvenue !
+        </h1>
+        <p style="font-size: 13px; color: var(--text2)">
+          Choisissez vos plats et passez votre commande.
+        </p>
+      </div>
+      <div class="cats-scroll" id="menu-cats"></div>
+      <div class="menu-grid" id="menu-grid"></div>
+      <div class="panier-wrap">
+        <div class="panier-title">🛒 Ma commande</div>
+        <div id="panier-items">
+          <div class="panier-empty">Aucun plat sélectionné</div>
+        </div>
+        <div class="panier-total" id="panier-total" style="display: none">
+          <span class="total-lbl">Total</span>
+          <span class="total-val mono" id="total-val">0</span>
+        </div>
+      </div>
+      <div class="fields-row">
+        <div class="field">
+          <label>Votre prénom</label
+          ><input type="text" id="client-nom" placeholder="Ex: Moussa" />
+        </div>
+        <div class="field">
+          <label>Table N°</label
+          ><input type="number" id="table-num" placeholder="Ex: 5" min="1" />
+        </div>
+      </div>
+      <div class="field">
+        <label>Note (optionnel)</label
+        ><input type="text" id="client-note" placeholder="Ex: sans piment" />
+      </div>
+      <button
+        class="btn-primary"
+        id="btn-envoyer"
+        onclick="envoyerCommande()"
+        disabled
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <line x1="22" y1="2" x2="11" y2="13" />
+          <polygon points="22 2 15 22 11 13 2 9 22 2" />
+        </svg>
+        Envoyer la commande
+      </button>
+    </main>
+
+    <!-- MODAL CONFIRMATION -->
+    <div class="modal-bg" id="confirm-modal-bg">
+      <div class="modal">
+        <div class="confirm-box">
+          <div class="confirm-icon">🎉</div>
+          <div class="confirm-title">Commande envoyée !</div>
+          <p style="font-size: 13px; color: var(--green-dark)">Votre numéro</p>
+          <div class="confirm-num mono" id="confirm-num">#001</div>
+          <div class="confirm-msg">
+            Le caissier va vous appeler pour le paiement. Merci !
+          </div>
+        </div>
+        <button
+          class="btn-primary"
+          style="margin-top: 1rem"
+          onclick="nouvelleCommande()"
+        >
+          Nouvelle commande
+        </button>
+      </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/client.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", initClient);
+      document
+        .getElementById("confirm-modal-bg")
+        .addEventListener("click", function (e) {
+          if (e.target === this) nouvelleCommande();
+        });
+    </script>
+  </body>
+</html>

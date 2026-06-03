@@ -1,8 +1,18 @@
-// ─── SERVICE API ─────────────────────────────────────────────────────────────
-// Toutes les communications avec le backend PHP passent par ici.
+// ─── CONFIG GLOBALE ───────────────────────────────────────────────────────────
+let APP_CONFIG = { nom: 'Mon Restaurant', ville: '', devise: 'FCFA' };
 
+async function loadConfig() {
+  APP_CONFIG = await API.getConfig();
+}
+
+// ─── SERVICE API ─────────────────────────────────────────────────────────────
 const API = {
   base: "/api",
+
+  async getConfig() {
+    const r = await fetch(`${this.base}/config.php`);
+    return r.json();
+  },
 
   // ── Plats ──────────────────────────────────────────────────────────────────
   async getPlats() {

@@ -4,6 +4,7 @@ let ordersAdmin = [];
 let editPlatId = null;
 
 async function initAdmin() {
+  await loadConfig();
   await chargerTout();
 }
 
@@ -25,7 +26,7 @@ async function renderAdmin() {
     <div class="admin-plat-row">
       <div style="width:8px;height:8px;border-radius:50%;background:${CAT_COLORS[p.categorie]||'#888'};flex-shrink:0;"></div>
       <div class="admin-plat-nom">${p.nom}<span class="admin-plat-cat">${p.categorie}</span></div>
-      <div class="admin-prix">${parseInt(p.prix).toLocaleString('fr-FR')} F</div>
+      <div class="admin-prix">${parseInt(p.prix).toLocaleString('fr-FR')} ${APP_CONFIG.devise}</div>
       <button class="dispo-btn ${p.dispo?'dispo-on':'dispo-off'}" onclick="toggleDispoAdmin(${p.id}, ${p.dispo})">${p.dispo?'Dispo':'Indispo'}</button>
       <button class="icon-btn" onclick="openFormModal(${p.id})">✏️</button>
       <button class="icon-btn" onclick="deletePlatAdmin(${p.id})">🗑</button>
@@ -42,7 +43,7 @@ async function renderAdmin() {
       <span style="font-family:monospace;">${o.numero}</span>
       <span style="color:var(--text2);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${o.client_nom} · T.${o.table_num}</span>
       <span class="status-badge ${o.statut==='paye'?'s-paye':'s-attente'}">${o.statut==='paye'?'Payé':'Attente'}</span>
-      <span style="color:var(--green);font-weight:600;flex-shrink:0;">${parseInt(o.total).toLocaleString('fr-FR')} F</span>
+      <span style="color:var(--green);font-weight:600;flex-shrink:0;">${parseInt(o.total).toLocaleString('fr-FR')} ${APP_CONFIG.devise}</span>
     </div>
   `).join('');
 }
@@ -51,7 +52,7 @@ async function updateAdminStats() {
   try {
     const stats = await API.getStats();
     document.getElementById('a-commandes').textContent = stats.commandes_today;
-    document.getElementById('a-ca').textContent = parseInt(stats.ca).toLocaleString('fr-FR') + ' F';
+    document.getElementById('a-ca').textContent = parseInt(stats.ca).toLocaleString('fr-FR') + ' ' + APP_CONFIG.devise;
     document.getElementById('a-dispo').textContent = stats.plats_dispo;
     document.getElementById('a-mobile').textContent = stats.mobile;
   } catch(e) {}

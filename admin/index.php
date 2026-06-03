@@ -7,7 +7,7 @@ requireAdmin(); // ← Redirige vers login si pas connecté
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin — Mon Restaurant</title>
+  <title>Admin — <?= htmlspecialchars(RESTO_NOM) ?></title>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
 </head>
@@ -57,7 +57,7 @@ requireAdmin(); // ← Redirige vers login si pas connecté
             <option>Desserts</option><option>Boissons</option>
           </select>
         </div>
-        <div class="field"><label>Prix (FCFA)</label><input type="number" id="af-prix" placeholder="3500" min="0"></div>
+        <div class="field"><label>Prix (<?= htmlspecialchars(RESTO_DEVISE) ?>)</label><input type="number" id="af-prix" placeholder="3500" min="0"></div>
       </div>
       <div class="toggle-row">
         <span>Disponible dès maintenant</span>

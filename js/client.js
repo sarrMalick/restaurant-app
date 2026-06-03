@@ -10,6 +10,7 @@ const CAT_COLORS = {
 };
 
 async function initClient() {
+  await loadConfig();
   afficherChargement();
   try {
     plats = await API.getPlats();
@@ -50,7 +51,7 @@ function renderMenu() {
       <div class="item-dot" style="background:${CAT_COLORS[p.categorie]||'#888'}"></div>
       ${qty > 0 ? `<div class="item-qty">${qty}</div>` : ''}
       <div class="item-nom">${p.nom}</div>
-      <div class="item-prix">${parseInt(p.prix).toLocaleString('fr-FR')} F</div>
+      <div class="item-prix">${parseInt(p.prix).toLocaleString('fr-FR')} ${APP_CONFIG.devise}</div>
     </div>`;
   }).join('');
 
@@ -92,11 +93,11 @@ function renderPanier() {
         <div class="qty-num">${qty}</div>
         <button class="qty-btn" onclick="changeQty(${id},+1)">+</button>
       </div>
-      <div class="panier-sous">${(parseInt(p.prix)*qty).toLocaleString('fr-FR')} F</div>
+      <div class="panier-sous">${(parseInt(p.prix)*qty).toLocaleString('fr-FR')} ${APP_CONFIG.devise}</div>
     </div>`;
   }).join('');
   document.getElementById('panier-total').style.display = 'flex';
-  document.getElementById('total-val').textContent = getTotal().toLocaleString('fr-FR') + ' F';
+  document.getElementById('total-val').textContent = getTotal().toLocaleString('fr-FR') + ' ' + APP_CONFIG.devise;
   document.getElementById('btn-envoyer').disabled = false;
 }
 
